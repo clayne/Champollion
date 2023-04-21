@@ -32,6 +32,14 @@ Champollion is a CLI-only program.
 * CMake
 * A C++17 compiler
 
+### Build Instructions
+```shell
+mkdir build
+cd build
+cmake ..
+cmake --build ./
+```
+
 ## Copyright
 
 Copyright (c) 2022 Nikita Lita
