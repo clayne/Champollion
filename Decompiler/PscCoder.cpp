@@ -8,6 +8,7 @@
 #include <locale>
 #include <map>
 #include <string>
+#include <cstring>
 
 #include "PscDecompiler.hpp"
 
@@ -432,7 +433,7 @@ void Decompiler::PscCoder::writeStates(const Pex::Object &object, const Pex::Bin
             auto stream = indent(0);
 
             // The auto state name canbe a different index than the state name, event if it is the same value.
-            if (_stricmp(state.getName().asString().c_str(), object.getAutoStateName().asString().c_str()) == 0)
+            if (strcasecmp(state.getName().asString().c_str(), object.getAutoStateName().asString().c_str()) == 0)
             {
                 stream << "Auto ";
             }
@@ -478,7 +479,7 @@ void Decompiler::PscCoder::writeFunction(int i, const Pex::Function &function, c
 
     bool isEvent = false;
     
-    if (functionName.size() > 2 && !_stricmp(functionName.substr(0, 2).c_str(), "on")) {
+    if (functionName.size() > 2 && !strcasecmp(functionName.substr(0, 2).c_str(), "on")) {
         // We'd have to check for full inheritence to do this by object type
         // Right now, we're just seeing if matches all the built-in event names.
         if (pex.getGameType() == Pex::Binary::ScriptType::SkyrimScript){
@@ -492,7 +493,7 @@ void Decompiler::PscCoder::writeFunction(int i, const Pex::Function &function, c
         }
     }
 
-    if (functionName.size() > 9 && !_stricmp(functionName.substr(0, 9).c_str(), "::remote_")) {
+    if (functionName.size() > 9 && !strcasecmp(functionName.substr(0, 9).c_str(), "::remote_")) {
       isEvent = true;
       functionName = functionName.substr(9);
       functionName[function.getParams()[0].getTypeName().asString().size()] = '.';
@@ -501,7 +502,7 @@ void Decompiler::PscCoder::writeFunction(int i, const Pex::Function &function, c
     if (functionName != "GetState" && functionName != "GotoState")
     {
         auto stream = indent(i);
-        if (_stricmp(function.getReturnTypeName().asString().c_str(), "none") != 0)
+        if (strcasecmp(function.getReturnTypeName().asString().c_str(), "none") != 0)
             stream << mapType(function.getReturnTypeName().asString()) << " ";
 
         if (isEvent)

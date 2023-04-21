@@ -6,7 +6,7 @@ namespace options = boost::program_options;
 #include <filesystem>
 namespace fs = std::filesystem;
 
-#include <format>
+#include <fmt/format.h>
 
 #include <chrono>
 #include <future>
@@ -188,7 +188,7 @@ ProcessResults processFile(fs::path file, Params params)
     }
     catch(std::exception& ex)
     {
-       result.push_back(std::format("ERROR: {} : {}", file.string(), ex.what()));
+       result.push_back(fmt::format("ERROR: {} : {}", file.string(), ex.what()));
        return result;
     }
     if (params.outputAssembly)
@@ -200,11 +200,11 @@ ProcessResults processFile(fs::path file, Params params)
             Decompiler::AsmCoder asmCoder(new Decompiler::StreamWriter(asmStream));
 
             asmCoder.code(pex);
-            result.push_back(std::format("{} dissassembled to {}", file.string(), asmFile.string()));
+            result.push_back(fmt::format("{} dissassembled to {}", file.string(), asmFile.string()));
         }
         catch(std::exception& ex)
         {
-            result.push_back(std::format("ERROR: {} : {}",file.string(),ex.what()));
+            result.push_back(fmt::format("ERROR: {} : {}",file.string(),ex.what()));
             fs::remove(asmFile);
         }
     }
@@ -224,7 +224,7 @@ ProcessResults processFile(fs::path file, Params params)
     {   
         std::ofstream pscStream(pscFile);
         if (pscStream.fail()){
-            throw std::runtime_error(std::format("Failed to open {} for writing", pscFile.string()));
+            throw std::runtime_error(fmt::format("Failed to open {} for writing", pscFile.string()));
         }
         Decompiler::PscCoder pscCoder(
             new Decompiler::StreamWriter(pscStream),
@@ -235,11 +235,11 @@ ProcessResults processFile(fs::path file, Params params)
             params.papyrusDir.string() ); // using string instead of path here for C++14 compatability for staticlib targets
 
         pscCoder.code(pex);
-        result.push_back(std::format("{} decompiled to {}", file.string(), pscFile.string()));
+        result.push_back(fmt::format("{} decompiled to {}", file.string(), pscFile.string()));
     }
     catch(std::exception& ex)
     {
-        result.push_back(std::format("ERROR: {} : {}", file.string() , ex.what()));
+        result.push_back(fmt::format("ERROR: {} : {}", file.string() , ex.what()));
         fs::remove(pscFile);
     }
     return result;
@@ -265,7 +265,7 @@ int main(int argc, char* argv[])
                     fs::directory_iterator entry(path);
                     while(entry != end)
                     {
-                        if (_stricmp(entry->path().extension().string().c_str(), ".pex") == 0)
+                        if (strcasecmp(entry->path().extension().string().c_str(), ".pex") == 0)
                         {
                             for (auto line : processFile(entry->path(), args))
                             {
@@ -297,7 +297,7 @@ int main(int argc, char* argv[])
                     fs::directory_iterator entry(path);
                     while(entry != end)
                     {
-                        if (_stricmp(entry->path().extension().string().c_str(), ".pex") == 0)
+                        if (strcasecmp(entry->path().extension().string().c_str(), ".pex") == 0)
                         {
 
                             results.push_back(std::move(std::async(std::launch::async, processFile, fs::path(entry->path()), args)));

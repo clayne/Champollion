@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 
 Node::Base::Base(size_t childs, size_t ip, uint8_t precedence, const Pex::StringTable::Index &result) :
     std::deque<BasePtr>(childs),
@@ -27,7 +28,7 @@ bool Node::Base::isFinal() const
     if (m_Result.isValid() && !m_Result.isUndefined())
     {
         auto& id = m_Result.asString();
-        return id.substr(0, 6) != "::temp" && _stricmp(id.c_str(), "::nonevar") != 0;
+        return id.substr(0, 6) != "::temp" && strcasecmp(id.c_str(), "::nonevar") != 0;
     }
     return true;
 

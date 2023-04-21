@@ -6,6 +6,9 @@
 
 #include "Binary.hpp"
 
+#undef BIG_ENDIAN
+#undef LITTLE_ENDIAN
+
 namespace Pex {
 
 /**

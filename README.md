@@ -2,6 +2,8 @@
 
 Champollion is a decompiler for the Papyrus script language used in Skyrim and Fallout 4. It aims to produce a Papyrus Script file (.psc) from a .pex binary file. The decompiled script should recompile to a functionally equivalent PEX binary.
 
+This fork changes the windows only features to instead use linux features. This allows it to be built using GCC.
+
 ## Usage
 
 Champollion is a CLI-only program.
@@ -25,9 +27,10 @@ Champollion is a CLI-only program.
 
 ## Build Dependencies
 
-* Boost (installable through vcpkg)
+* Boost
+* [Fmt](https://fmt.dev/latest/index.html)
 * CMake
-* A C++17 compiler (for Windows you need at least Visual Studio 2019)
+* A C++17 compiler
 
 ## Copyright
 

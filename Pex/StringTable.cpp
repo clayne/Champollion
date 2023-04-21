@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <cassert>
+#include <cstring>
 
 /**
  * @brief Default constructor
@@ -78,7 +79,7 @@ Pex::StringTable::Index Pex::StringTable::get(std::uint16_t index) const
 Pex::StringTable::Index Pex::StringTable::findIdentifier(const std::string &id) const
 {
     auto it = std::find_if(m_Table.begin(), m_Table.end(), [&] (const std::string& item) {
-        return _stricmp(item.c_str(), id.c_str()) == 0;
+        return strcasecmp(item.c_str(), id.c_str()) == 0;
     });
     if (it == m_Table.end())
     {

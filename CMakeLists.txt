@@ -144,6 +144,9 @@ else()
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${Boost_INCLUDE_DIRS}
   )
+
+  find_package(fmt)
+
   add_subdirectory(Decompiler)
   add_subdirectory(Pex)
   add_subdirectory(Champollion)

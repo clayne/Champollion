@@ -7,6 +7,7 @@
 #include <iterator>
 #include <atomic>
 #include <mutex>
+#include <cstring>
 
 #include "Node/Nodes.hpp"
 #include "Node/WithNode.hpp"
@@ -18,7 +19,7 @@ static inline
 bool isTempVar(const Pex::StringTable::Index& var)
 {
     auto& name = var.asString();
-    return (name.length() > 6 && name.substr(0, 6) == "::temp" && name.substr(name.length() - 4, 4) != "_var") || _stricmp(name.c_str(), "::nonevar") == 0;
+    return (name.length() > 6 && name.substr(0, 6) == "::temp" && name.substr(name.length() - 4, 4) != "_var") || strcasecmp(name.c_str(), "::nonevar") == 0;
 }
 static inline
 bool isMangledVar(const Pex::StringTable::Index& var)
